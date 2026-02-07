@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Humble Entreaty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Caveat:wght@400;500;600;700&family=Satisfy&display=swap');
+
+        body {
+            font-family: 'Caveat', cursive;
+            background: linear-gradient(135deg, #f5e6d3 0%, #fff9f0 50%, #fef5e7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 15px;
+            touch-action: manipulation; /* Prevent double-tap zoom */
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 31px,
+                    rgba(139, 90, 43, 0.08) 31px,
+                    rgba(139, 90, 43, 0.08) 32px
+                );
+            pointer-events: none;
+        }
+
+        .ink-stain {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 80, 120, 0.1), transparent);
+            pointer-events: none;
+        }
+
+        .stain1 { top: 10%; left: 15%; width: 30px; height: 30px; }
+        .stain2 { top: 70%; right: 20%; width: 25px; height: 25px; }
+        .stain3 { bottom: 15%; left: 25%; width: 35px; height: 35px; }
+
+        .container {
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .paper {
+            background: linear-gradient(to bottom, #fffef9 0%, #fffbf0 100%);
+            padding: 25px 20px;
+            border-radius: 2px;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 10px 30px rgba(0, 0, 0, 0.15),
+                inset 0 0 60px rgba(139, 90, 43, 0.03);
+            position: relative;
+            border: 1px solid #e8d5b7;
+            margin-bottom: 20px;
+        }
+
+        .paper::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background: #c9b8a0;
+            opacity: 0.3;
+            transform: rotate(45deg);
+        }
+
+        .greeting {
+            font-family: 'Satisfy', cursive;
+            font-size: 28px;
+            color: #6b5d54;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quill-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            display: inline-block;
+            animation: gentle-bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes gentle-bounce {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(-8deg); }
+        }
+
+        .divider {
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #c9b8a0, transparent);
+            margin: 20px auto;
+        }
+
+        .letter-text {
+            font-size: 20px;
+            color: #4a4038;
+            line-height: 1.7;
+            margin-bottom: 18px;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .letter-text.indent {
+            text-indent: 30px;
+        }
+
+        .letter-text strong {
+            font-weight: 700;
+            color: #3d3128;
+            text-decoration: underline;
+            text-decoration-color: rgba(201, 184, 160, 0.5);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+        }
+
+        .signature {
+            text-align: right;
+            font-size: 22px;
+            color: #5a4d42;
+            margin-top: 20px;
+            font-family: 'Dancing Script', cursive;
+            font-weight: 600;
+        }
+
+        .buttons-container {
+            position: relative;
+            min-height: 320px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        button {
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            font-weight: 700;
+            padding: 14px 30px;
+            border: 3px solid #8b7355;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 6px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            position: absolute;
+            touch-action: manipulation; /* Prevent double-tap zoom */
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .yes-btn {
+            background: linear-gradient(to bottom, #f4d9b8, #e8c9a0);
+            color: #4a3f35;
+            left: 50%;
+            top: 100px;
+            transform: translateX(-50%);
+            z-index: 5;
+            border-color: #a89176;
+        }
+
+        .yes-btn:hover {
+            background: linear-gradient(to bottom, #ffe9c8, #f4d9b8);
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .no-btn {
+            background: linear-gradient(to bottom, #d4c4b0, #c4b4a0);
+            color: #5a4d42;
+            left: 50%;
+            top: 190px;
+            transform: translateX(-50%);
+            transition: all 0.2s ease;
+            z-index: 4;
+            border-color: #9a8a76;
+        }
+
+        .no-btn:hover {
+            background: linear-gradient(to bottom, #e4d4c0, #d4c4b0);
+        }
+
+        .letter-display {
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .full-letter {
+            background: linear-gradient(to bottom, #fffef9 0%, #fffbf0 100%);
+            padding: 25px 20px;
+            border-radius: 2px;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 10px 30px rgba(0, 0, 0, 0.15),
+                inset 0 0 60px rgba(139, 90, 43, 0.03);
+            border: 1px solid #e8d5b7;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .full-letter::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 20px;
+            width: 30px;
+            height: 30px;
+            background: #c9b8a0;
+            opacity: 0.3;
+            transform: rotate(45deg);
+        }
+
+        .letter-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 26px;
+            color: #5a4d42;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .letter-body {
+            font-size: 19px;
+            color: #4a4038;
+            line-height: 1.8;
+            margin-bottom: 18px;
+            text-align: justify;
+            font-weight: 500;
+        }
+
+        .letter-body strong {
+            font-weight: 700;
+            color: #3d3128;
+            text-decoration: underline;
+            text-decoration-color: rgba(201, 184, 160, 0.6);
+        }
+
+        .letter-closing {
+            text-align: right;
+            margin-top: 30px;
+            font-family: 'Dancing Script', cursive;
+            color: #5a4d42;
+            font-size: 20px;
+        }
+
+        .wax-seal {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #c75450, #a03c38);
+            border-radius: 50%;
+            margin: 30px auto 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.3),
+                0 4px 10px rgba(199, 84, 80, 0.4);
+            border: 3px solid #8a2f2c;
+        }
+
+        .sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .sparkle {
+            position: absolute;
+            font-size: 24px;
+            animation: sparkleFloat 3s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        /* Custom scrollbar for letter */
+        .full-letter::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .full-letter::-webkit-scrollbar-track {
+            background: #f4ead8;
+        }
+
+        .full-letter::-webkit-scrollbar-thumb {
+            background: #c9b8a0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ink-stain stain1"></div>
+    <div class="ink-stain stain2"></div>
+    <div class="ink-stain stain3"></div>
+    
+    <div class="sparkles" id="sparkles"></div>
+    
+    <!-- Background Music - Ed Sheeran Perfect -->
+    <audio id="bgMusic" loop>
+        <source src="source.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Music Control Button -->
+    <button id="musicToggle" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: rgba(244, 217, 184, 0.9); border: 2px solid #8b7355; border-radius: 50%; width: 50px; height: 50px; font-size: 24px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); touch-action: manipulation;">
+        🎵
+    </button>
+    
+    <div class="container">
+        <div id="questionBox">
+            <div class="paper">
+                <div class="quill-icon">🪶</div>
+                
+                <div class="greeting">A Gentleman's Humble Plea</div>
+                
+                <div class="divider"></div>
+                
+                <p class="letter-text">
+                    My Most Esteemed and Gracious Lady,
+                </p>
+                <p class="letter-text indent">
+                    I confess, with utmost humility, that thy repeated dismissals have rendered me quite desperate in my affections. Yet still, I dare to beseech thee once more...
+                </p>
+                <p class="letter-text indent">
+                    Before thou departest for thy residence, wouldst thou grant this unworthy gentleman the <strong>supreme honour</strong> of thy presence for but <strong>one single day</strong>?
+                </p>
+                <p class="signature">
+                    ~ Thy Most Devoted Admirer
+                </p>
+            </div>
+            
+            <div class="buttons-container">
+                <button class="yes-btn" id="yesBtn">I Shall Consider It</button>
+                <button class="no-btn" id="noBtn">Absolutely Not</button>
+            </div>
+        </div>
+
+        <div id="letterDisplay" class="letter-display">
+            <div class="full-letter">
+                <div class="letter-title">A Missive Most Tender</div>
+                
+                <p class="letter-body">My Dearest and Most Beauteous Soul,</p>
+                
+                <p class="letter-body">I trust this missive finds thee in the most splendid of spirits and excellent health.</p>
+                
+                <p class="letter-body">It is with the utmost delight and profound gratification that I pen these words, having received thy most favourable affirmation to my humble inquiry. Thy acceptance has rendered my heart exceedingly jubilant, and I am quite overcome with felicity.</p>
+                
+                <p class="letter-body">Permit me to declare with the fullest sincerity of heart: <strong>Thou art the prettiest soul in the entire world.</strong> Thy grace, thy kindness, and thy radiant spirit illuminate my days with a brilliance that surpasseth the very sun itself.</p>
+                
+                <p class="letter-body">I beseech thee most earnestly - before thou departest for thy home, wouldst thou be so gracious as to spare <strong>one entire day</strong> in my company? I dare say, it would be the greatest honour and privilege to spend such precious hours in thy delightful presence.</p>
+                
+                <p class="letter-body">I should be most honoured if thou wouldst make preparation for our forthcoming engagement. Pray, attire thyself in thy finest vestments, for I have arranged a day of considerable magnificence in celebration of this most auspicious occasion.</p>
+                
+                <p class="letter-body">I shall present myself at thy doorstep at the appointed hour, whereupon we shall embark upon a day filled with refined company, pleasant diversions, and memories most treasured.</p>
+                
+                <p class="letter-body">Until that most anticipated moment, I remain thy devoted admirer, counting each passing minute until we meet.</p>
+                
+                <div class="letter-closing">
+                    <p>With the deepest affection and highest regard,</p>
+                    <p style="margin-top: 10px; font-size: 28px;"><strong>Thy Most Faithful and Eternally Devoted Valentine</strong></p>
+                    <p style="margin-top: 20px; font-size: 20px; font-family: 'Caveat', cursive;">P.S. - Do make haste in thy preparations, for I can scarce contain my eagerness to spend this entire glorious day with the prettiest soul mine eyes have ever beheld!</p>
+                </div>
+                
+                <div class="wax-seal">💌</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionBox = document.getElementById('questionBox');
+        const letterDisplay = document.getElementById('letterDisplay');
+        const buttonsContainer = document.querySelector('.buttons-container');
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        
+        let noClickCount = 0;
+        let yesBtnScale = 1;
+        let musicStarted = false;
+        let musicPlaying = false;
+
+        // Function to start music (needs user interaction)
+        function startMusic() {
+            if (!musicStarted) {
+                bgMusic.play().catch(e => {
+                    console.log('Music autoplay prevented, will start on button click');
+                });
+                musicStarted = true;
+                musicPlaying = true;
+                musicToggle.textContent = '🔊';
+            }
+        }
+
+        // Music toggle button
+        musicToggle.addEventListener('click', function() {
+            if (!musicStarted) {
+                startMusic();
+            } else {
+                if (musicPlaying) {
+                    bgMusic.pause();
+                    musicToggle.textContent = '🔇';
+                    musicPlaying = false;
+                } else {
+                    bgMusic.play();
+                    musicToggle.textContent = '🔊';
+                    musicPlaying = true;
+                }
+            }
+        });
+
+        // Try to start music on first interaction
+        document.addEventListener('click', startMusic, { once: true });
+        document.addEventListener('touchstart', startMusic, { once: true });
+
+        function createSparkles(x, y) {
+            const sparkles = document.getElementById('sparkles');
+            const emojis = ['✨', '💛', '🌟', '⭐', '💫', '🎭', '🪶', '💝'];
+            
+            for (let i = 0; i < 8; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                sparkle.style.left = x + 'px';
+                sparkle.style.top = y + 'px';
+                sparkle.style.animationDelay = (i * 0.1) + 's';
+                sparkles.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+
+        yesBtn.addEventListener('click', function(e) {
+            createSparkles(e.clientX, e.clientY);
+            questionBox.style.display = 'none';
+            letterDisplay.style.display = 'block';
+            
+            // Create confetti effect
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createSparkles(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight
+                    );
+                }, i * 100);
+            }
+        });
+
+        noBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            noClickCount++;
+            
+            // Make Yes button bigger
+            yesBtnScale += 0.25;
+            yesBtn.style.transform = `translateX(-50%) scale(${yesBtnScale})`;
+            yesBtn.style.zIndex = 5 + noClickCount; // Keep Yes button above No button
+            
+            // Make No button smaller
+            const newSize = Math.max(0.4, 1 - (noClickCount * 0.12));
+            
+            // Get viewport dimensions for full screen movement
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const buttonWidth = 120; // Smaller for mobile
+            const buttonHeight = 55;
+            
+            let randomX, randomY;
+            let attempts = 0;
+            const maxAttempts = 100;
+            
+            // Get Yes button position in viewport coordinates
+            const yesRect = yesBtn.getBoundingClientRect();
+            const yesBtnWidth = yesRect.width;
+            const yesBtnHeight = yesRect.height;
+            const safetyMargin = 40;
+            
+            // Try to find a position anywhere on screen that doesn't overlap with Yes button
+            do {
+                // Random position anywhere on the screen
+                randomX = Math.random() * (viewportWidth - buttonWidth);
+                randomY = Math.random() * (viewportHeight - buttonHeight);
+                
+                const noLeft = randomX;
+                const noRight = randomX + buttonWidth;
+                const noTop = randomY;
+                const noBottom = randomY + buttonHeight;
+                
+                const yesLeft = yesRect.left - safetyMargin;
+                const yesRight = yesRect.right + safetyMargin;
+                const yesTop = yesRect.top - safetyMargin;
+                const yesBottom = yesRect.bottom + safetyMargin;
+                
+                // Check for overlap
+                const overlaps = !(noRight < yesLeft || 
+                                 noLeft > yesRight || 
+                                 noBottom < yesTop || 
+                                 noTop > yesBottom);
+                
+                if (!overlaps) {
+                    break;
+                }
+                
+                attempts++;
+            } while (attempts < maxAttempts);
+            
+            // If we couldn't find a good spot, place it in a corner away from Yes button
+            if (attempts >= maxAttempts) {
+                const corners = [
+                    {x: 20, y: 20}, // top left
+                    {x: viewportWidth - buttonWidth - 20, y: 20}, // top right
+                    {x: 20, y: viewportHeight - buttonHeight - 20}, // bottom left
+                    {x: viewportWidth - buttonWidth - 20, y: viewportHeight - buttonHeight - 20} // bottom right
+                ];
+                const corner = corners[Math.floor(Math.random() * corners.length)];
+                randomX = corner.x;
+                randomY = corner.y;
+            }
+            
+            // Change to fixed positioning for full screen movement
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            noBtn.style.transform = `scale(${newSize})`;
+            noBtn.style.zIndex = 4; // Keep No button below Yes button
+            
+            // Change text after a few clicks - haughty rejections
+            if (noClickCount === 1) {
+                noBtn.textContent = 'Preposterous!';
+            } else if (noClickCount === 2) {
+                noBtn.textContent = 'I Think Not!';
+            } else if (noClickCount === 3) {
+                noBtn.textContent = 'How Dare Thee!';
+            } else if (noClickCount === 4) {
+                noBtn.textContent = 'Never!';
+            } else if (noClickCount === 5) {
+                noBtn.textContent = 'Well... Perhaps...';
+            } else if (noClickCount === 6) {
+                noBtn.textContent = 'Thou Art Persistent...';
+            } else if (noClickCount === 7) {
+                noBtn.textContent = 'Very Well Then';
+                noBtn.style.background = 'linear-gradient(to bottom, #f4d9b8, #e8c9a0)';
+                noBtn.style.color = '#4a3f35';
+                noBtn.style.borderColor = '#a89176';
+                
+                // Make it become a real Yes button
+                setTimeout(() => {
+                    noBtn.onclick = function(e) {
+                        createSparkles(e.clientX, e.clientY);
+                        questionBox.style.display = 'none';
+                        letterDisplay.style.display = 'block';
+                        
+                        for (let i = 0; i < 30; i++) {
+                            setTimeout(() => {
+                                createSparkles(
+                                    Math.random() * window.innerWidth,
+                                    Math.random() * window.innerHeight
+                                );
+                            }, i * 100);
+                        }
+                    };
+                }, 100);
+            }
+        });
+
+        // Prevent No button from being clicked too easily on hover
+        noBtn.addEventListener('mouseenter', function() {
+            if (noClickCount > 2) {
+                // Get viewport dimensions for full screen movement
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const buttonWidth = 120; // Smaller for mobile
+                const buttonHeight = 55;
+                
+                let randomX, randomY;
+                let attempts = 0;
+                
+                // Get Yes button position in viewport coordinates
+                const yesRect = yesBtn.getBoundingClientRect();
+                const safetyMargin = 40;
+                
+                do {
+                    // Random position anywhere on the screen
+                    randomX = Math.random() * (viewportWidth - buttonWidth);
+                    randomY = Math.random() * (viewportHeight - buttonHeight);
+                    
+                    const noLeft = randomX;
+                    const noRight = randomX + buttonWidth;
+                    const noTop = randomY;
+                    const noBottom = randomY + buttonHeight;
+                    
+                    const yesLeft = yesRect.left - safetyMargin;
+                    const yesRight = yesRect.right + safetyMargin;
+                    const yesTop = yesRect.top - safetyMargin;
+                    const yesBottom = yesRect.bottom + safetyMargin;
+                    
+                    const overlaps = !(noRight < yesLeft || 
+                                     noLeft > yesRight || 
+                                     noBottom < yesTop || 
+                                     noTop > yesBottom);
+                    
+                    if (!overlaps) {
+                        break;
+                    }
+                    
+                    attempts++;
+                } while (attempts < 100);
+                
+                if (attempts >= 100) {
+                    const corners = [
+                        {x: 20, y: 20},
+                        {x: viewportWidth - buttonWidth - 20, y: 20},
+                        {x: 20, y: viewportHeight - buttonHeight - 20},
+                        {x: viewportWidth - buttonWidth - 20, y: viewportHeight - buttonHeight - 20}
+                    ];
+                    const corner = corners[Math.floor(Math.random() * corners.length)];
+                    randomX = corner.x;
+                    randomY = corner.y;
+                }
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+            }
+        });
+
+        // Add touchstart for mobile devices (works better than mouseenter on touch screens)
+        noBtn.addEventListener('touchstart', function(e) {
+            if (noClickCount > 2) {
+                e.preventDefault(); // Prevent default touch behavior
+                
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                const buttonWidth = 120;
+                const buttonHeight = 55;
+                
+                let randomX, randomY;
+                let attempts = 0;
+                
+                const yesRect = yesBtn.getBoundingClientRect();
+                const safetyMargin = 40;
+                
+                do {
+                    randomX = Math.random() * (viewportWidth - buttonWidth);
+                    randomY = Math.random() * (viewportHeight - buttonHeight);
+                    
+                    const noLeft = randomX;
+                    const noRight = randomX + buttonWidth;
+                    const noTop = randomY;
+                    const noBottom = randomY + buttonHeight;
+                    
+                    const yesLeft = yesRect.left - safetyMargin;
+                    const yesRight = yesRect.right + safetyMargin;
+                    const yesTop = yesRect.top - safetyMargin;
+                    const yesBottom = yesRect.bottom + safetyMargin;
+                    
+                    const overlaps = !(noRight < yesLeft || 
+                                     noLeft > yesRight || 
+                                     noBottom < yesTop || 
+                                     noTop > yesBottom);
+                    
+                    if (!overlaps) {
+                        break;
+                    }
+                    
+                    attempts++;
+                } while (attempts < 100);
+                
+                if (attempts >= 100) {
+                    const corners = [
+                        {x: 20, y: 20},
+                        {x: viewportWidth - buttonWidth - 20, y: 20},
+                        {x: 20, y: viewportHeight - buttonHeight - 20},
+                        {x: viewportWidth - buttonWidth - 20, y: viewportHeight - buttonHeight - 20}
+                    ];
+                    const corner = corners[Math.floor(Math.random() * corners.length)];
+                    randomX = corner.x;
+                    randomY = corner.y;
+                }
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+            }
+        }, {passive: false});
+    </script>
+</body>
+</html>
